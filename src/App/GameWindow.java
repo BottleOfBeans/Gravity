@@ -78,6 +78,8 @@ public class GameWindow extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D graphics = (Graphics2D)g;
-
+        graphics.setColor(Color.white);
+        Planet Sun = new Planet(new Point(gameWidth/2, gameHeight/2), 10, 50 );
+        graphics.draw(Sun.getPlanet());
     }
 }
