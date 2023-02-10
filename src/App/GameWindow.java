@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-public class GameWindow extends JPanel implements Runnable{
+public class GameWindow extends JPanel  implements Runnable{
     /*
         Game Tile Size shows the tile that each of the images on screen should be in pixels, this is not the amount that are displayed in each tile but rather the orignal one
         Scalable value shows the value that is used to upscale the original images on the screen
@@ -31,8 +31,10 @@ public class GameWindow extends JPanel implements Runnable{
     //Game Values
     int FPS = 60;
 
+    //Planetary Object Values
+    Planet Sun = new Planet(new Point(gameWidth/2, gameHeight/2), 10, 50 );
+    Debris Object = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 10, 10);
 
-    //Player Values
 
     public GameWindow(){
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
@@ -78,8 +80,21 @@ public class GameWindow extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D graphics = (Graphics2D)g;
+
+
+        graphics.setColor(Color.yellow);
+        graphics.fill(Sun.getPlanet());
+
+
         graphics.setColor(Color.white);
-        Planet Sun = new Planet(new Point(gameWidth/2, gameHeight/2), 10, 50 );
-        graphics.draw(Sun.getPlanet());
+        Object.calculateLocation(new Planet[]{
+                Sun
+        });
+        graphics.fill(Object.getDebris());
+
+
+
+
+        graphics.dispose();
     }
 }
