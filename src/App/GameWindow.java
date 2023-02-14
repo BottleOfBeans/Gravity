@@ -32,9 +32,9 @@ public class GameWindow extends JPanel  implements Runnable{
     int FPS = 60;
 
     //Planetary Object Values
-    Planet Sun = new Planet(new Point(gameWidth/2, gameHeight/2), 10, 50 );
-    Debris Object = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 10, 10);
-
+    static Planet Sun = new Planet(new Point(gameWidth/2, gameHeight/2), 10, 50 );
+    static Debris Object = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 10, 10);
+    static Planet[] planets = {Sun};
 
     public GameWindow(){
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
@@ -82,19 +82,12 @@ public class GameWindow extends JPanel  implements Runnable{
         Graphics2D graphics = (Graphics2D)g;
 
 
-        graphics.setColor(Color.yellow);
+        graphics.setColor(Color.orange);
         graphics.fill(Sun.getPlanet());
 
-
+        Object.calculateLocation(planets);
         graphics.setColor(Color.white);
-        Object.calculateLocation(new Planet[]{
-                Sun
-        });
         graphics.fill(Object.getDebris());
-
-
-
-
         graphics.dispose();
     }
 }

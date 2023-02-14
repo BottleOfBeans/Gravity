@@ -13,7 +13,7 @@ public class Debris extends GameWindow {
     double radius;
     double acceleration;
     double velocity;
-
+    Vector currentVector = new Vector(-10,0);
 
     public Debris(Point gCentral, double gmass, double gradius) {
         central = gCentral;
@@ -24,7 +24,7 @@ public class Debris extends GameWindow {
 
 
     public Ellipse2D getDebris() {
-        return new Ellipse2D.Double(central.getX() - radius, central.getY() - radius, radius * 2, radius * 2);
+        return new Ellipse2D.Double(origin.getX(), origin.getY(), radius * 2, radius * 2);
     }
 
     public void calculateLocation(Planet[] planets){
@@ -33,25 +33,20 @@ public class Debris extends GameWindow {
             F = ma
             a = Gm2/r^2
          */
+       for(Planet planet: planets){
+           double xDist = Math.abs(origin.getX() - planet.getX());
+           double yDist = Math.abs(origin.getY() - planet.getY());
+           double dist = Math.sqrt(xDist * xDist + yDist * yDist) / FPS;
+           double angle = Math.atan(xDist/yDist);
+           double xConst = dist*Math.sin(angle);
+           double yConst = dist*Math.cos(angle);
 
-        for(Planet planet: planets){
-            double x1 = planet.getOrigin().getX();
-            double y1 = planet.getOrigin().getY();
-            double x2 = origin.getX();
-            double y2 = origin.getY();
+           System.out.println("X: "+xDist+"     Y:"+dist*Math.cos(angle));
+           Vector changeVector = new Vector(xConst*planet.getMass()/(dist*dist), yConst*planet.getMass()/(dist*dist));
+           currentVector.add(changeVector);
 
-            double distance =Math.pow( Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)), 100000);
-
-            double acceleration = G*planet.getMass() / (distance * distance);
-            acceleration = acceleration/60;
-            velocity += acceleration;
-
-            double xChange = 0;
-            double yChange = -(velocity);
-
-            origin = new Point((int) (origin.getX()+ xChange), (int)(origin.getY() + yChange));
-
-        }
+       }
+       origin = new Point((int)(origin.getX()+ currentVector.x),(int)( origin.getY()+ currentVector.y));
     }
 
 
