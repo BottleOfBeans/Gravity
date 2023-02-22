@@ -13,7 +13,7 @@ public class Debris extends GameWindow {
     double radius;
     double acceleration;
     double velocity;
-    Vector currentVector = new Vector(-10,0);
+    Vector currentVector = new Vector(0,0);
 
     public Debris(Point gCentral, double gmass, double gradius) {
         central = gCentral;
@@ -27,28 +27,36 @@ public class Debris extends GameWindow {
         return new Ellipse2D.Double(origin.getX(), origin.getY(), radius * 2, radius * 2);
     }
 
-    public void calculateLocation(Planet[] planets){
+    public void calculateLocation(Planet[] planets) {
         /*
             F = G * m1 * m2 / r^2
             F = ma
             a = Gm2/r^2
          */
-       for(Planet planet: planets){
-           double xDist = Math.abs(origin.getX() - planet.getX());
-           double yDist = Math.abs(origin.getY() - planet.getY());
-           double dist = Math.sqrt(xDist * xDist + yDist * yDist) / FPS;
-           double angle = Math.atan(xDist/yDist);
-           double xConst = dist*Math.sin(angle);
-           double yConst = dist*Math.cos(angle);
+        for (Planet planet : planets) {
+            double xDist = (planet.getOrigin().getX() - central.getX());
+            double yDist = (planet.getOrigin().getY() - central.getY());
+            double angle = Math.atan2(xDist, yDist);
 
-           System.out.println("X: "+xDist+"     Y:"+dist*Math.cos(angle));
-           Vector changeVector = new Vector(xConst*planet.getMass()/(dist*dist), yConst*planet.getMass()/(dist*dist));
-           currentVector.add(changeVector);
+            double dist = Math.sqrt(xDist * xDist + yDist * yDist) * Math.pow(10, 7);
+            double acceleration = (planet.mass * G) / (dist * dist);
 
-       }
-       origin = new Point((int)(origin.getX()+ currentVector.x),(int)( origin.getY()+ currentVector.y));
+            double xChange = acceleration * Math.sin(angle) / FPS;
+            double yChange = acceleration * Math.cos(angle) / FPS;
+
+
+            if(xDist == 0){
+                xChange = 0;
+            }
+            if(yDist == 0){
+                yChange = 0;
+            }
+            //System.out.println("     YDist: " + yDist+ "     XDist:"+xDist+ "     xChange:"+xChange+ "     yChange:"+yChange+ "     Angle:"+Math.toDegrees(angle));
+            currentVector.add(new Vector(xChange, yChange));
+        }
+        System.out.println("   XChange:"+currentVector.getX() + "   YChange:"+currentVector.getY());
+        origin = new Point((int)Math.round(origin.getX()+currentVector.getX()), (int)Math.round(origin.getY()+currentVector.getY()));
     }
-
 
     public double getMass() {
         return mass;

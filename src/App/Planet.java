@@ -22,7 +22,7 @@ public class Planet extends GameWindow {
 
 
     public Ellipse2D getPlanet(){
-        return new Ellipse2D.Double(central.getX()-radius, central.getY() - radius, radius*2, radius*2);
+        return new Ellipse2D.Double(origin.getX(), origin.getY(), radius*2, radius*2);
     }
 
 
@@ -32,7 +32,7 @@ public class Planet extends GameWindow {
         return mass;
     }
     public Point getOrigin(){
-        return origin;
+        return central;
     }
     public double getRadius(){
         return radius;
