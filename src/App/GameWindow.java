@@ -34,12 +34,14 @@ public class GameWindow extends JPanel  implements Runnable{
     //Planetary Object Values
     static Planet Sun = new Planet(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50 );
 
-    static Debris Object0 = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 6.0*Math.pow(10,24), 10);
-    static Debris Object1 = new Debris(new Point(gameWidth/2, gameHeight/2 + 200), 6.0*Math.pow(10,24), 10);
-    static Debris Object2 = new Debris(new Point(gameWidth/2, gameHeight/2 + 300), 6.0*Math.pow(10,24), 10);
+    //Debris Object Values
+    static Debris Object0 = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 6.0*Math.pow(10,24), 10,10, new Vector(1000,0));
 
+    //Arrays containing all of the debris and the planets
     static Planet[] planets = {Sun};
     static Debris[] debriss = {Object0};
+
+    //Creating the game windows and setting up the settings
     public GameWindow(){
         this.setPreferredSize(new Dimension(gameWidth, gameHeight));
         this.setBackground(Color.black);
@@ -47,11 +49,13 @@ public class GameWindow extends JPanel  implements Runnable{
         this.setFocusable(true);
     }
 
+    //Starting thread, managing frame updates
     public void startWindowThread(){
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    //Loop that runs the thread, allows for it to sleep and start and ensures proper frame speed
     @Override
     public void run(){
 
@@ -81,21 +85,26 @@ public class GameWindow extends JPanel  implements Runnable{
         ;
     }
 
+    //Function that paints the updated version of the frame {FPS} times a second.
     public void paintComponent(Graphics g){
+
+        //Quick definition of varibles to use with the G2D library
         super.paintComponent(g);
         Graphics2D graphics = (Graphics2D)g;
 
+        //Filling in the SUN
         graphics.setColor(Color.orange);
         graphics.fill(Sun.getPlanet());
 
 
+        //Filling in the debris
         graphics.setColor(Color.white);
         for(Debris objectt: debriss){
             objectt.calculateLocation(planets);
             graphics.fill(objectt.getDebris());
         }
 
-
+        //Stopping the use of the library to ensure that no more processing power than needed is used
         graphics.dispose();
     }
 }

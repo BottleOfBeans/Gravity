@@ -13,15 +13,18 @@ public class Debris extends GameWindow {
     double radius;
     double acceleration;
     double velocity;
-    Vector currentVector = new Vector(0,0);
+    Vector currentVector;
 
-    public Debris(Point gCentral, double gmass, double gradius) {
+    public Debris(Point gCentral, double gmass, double gradius, double gvelocity, Vector gVector) {
         central = gCentral;
         mass = gmass;
         radius = gradius;
         origin = new Point((int) (central.getX() - radius), (int) (central.getY() - radius));
+        velocity = gvelocity;
+        double xChange = gvelocity * Math.sin(gVector.getAngle());
+        double yChange = gvelocity * Math.cos(gVector.getAngle());
+        currentVector = new Vector(xChange, yChange);
     }
-
 
     public Ellipse2D getDebris() {
         return new Ellipse2D.Double(origin.getX(), origin.getY(), radius * 2, radius * 2);
@@ -45,28 +48,48 @@ public class Debris extends GameWindow {
             double yChange = acceleration * Math.cos(angle) / FPS;
 
 
-            if(xDist == 0){
+            if(xDist == 0 ){
                 xChange = 0;
             }
-            if(yDist == 0){
+            if(yDist == 0 ){
                 yChange = 0;
             }
-            //System.out.println("     YDist: " + yDist+ "     XDist:"+xDist+ "     xChange:"+xChange+ "     yChange:"+yChange+ "     Angle:"+Math.toDegrees(angle));
+            if(dist < (planet.radius + radius)*Math.pow(10, 7)){
+                xChange = 0;
+                yChange = 0;
+            }
+
+
+            System.out.println(
+                            "     YDist: " + yDist+
+                            "     XDist:"+xDist+
+                            "     xChange:"+xChange+
+                            "     yChange:"+yChange+
+                            //"     Angle:"+Math.toDegrees(angle) +
+                            //"     Radius:"+(planet.radius+radius)+
+                            //"     DISTANCE:"+dist+
+                            "     xVelocity:"+currentVector.getX()+
+                            "     yVelocity:"+currentVector.getY()
+            );
+
+
             currentVector.add(new Vector(xChange, yChange));
         }
-        System.out.println("   XChange:"+currentVector.getX() + "   YChange:"+currentVector.getY());
-        origin = new Point((int)Math.round(origin.getX()+currentVector.getX()), (int)Math.round(origin.getY()+currentVector.getY()));
+        //System.out.println("   XChange:"+currentVector.getX() + "   YChange:"+currentVector.getY());
+        origin = new Point((int)(origin.getX() + currentVector.getX()), (int)(origin.getY() + currentVector.getY()));
+        central = new Point((int)(origin.getX() + radius),(int)(origin.getY() + radius));
     }
 
     public double getMass() {
         return mass;
     }
-
     public Point getOrigin() {
         return origin;
     }
-
     public double getRadius() {
         return radius;
+    }
+    public Vector getVector(){
+        return currentVector;
     }
 }
