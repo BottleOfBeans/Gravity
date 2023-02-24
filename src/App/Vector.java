@@ -1,8 +1,8 @@
 package App;
 
 public class Vector {
-    public static double x;
-    public static double y;
+    public  double x;
+    public  double y;
 
     public Vector(double gx, double gy){
         x = gx;
@@ -10,7 +10,7 @@ public class Vector {
     }
 
 
-    public Vector add(Vector givenVector){return new Vector (x+ givenVector.x, y +  givenVector.y);}
+    public Vector add(Vector givenVector){return new Vector (x+ givenVector.getX(), y +  givenVector.getY());}
     public Vector sub(Vector givenVector){return new Vector (x+ givenVector.x, y -  givenVector.y);}
     public double distance(){return Math.sqrt(x*x + y*y);}
     public double getX(){return x;}

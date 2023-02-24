@@ -32,14 +32,18 @@ public class GameWindow extends JPanel  implements Runnable{
     int FPS = 60;
 
     //Planetary Object Values
-    static Planet Sun = new Planet(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50 );
+    static Debris Sun = new Debris(new Point(gameWidth/2-300, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(0,0), "Sun", true);
+    static Debris Sun2 = new Debris(new Point(gameWidth/2+300, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(0,0), "Sun", true);
 
     //Debris Object Values
-    static Debris Object0 = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 6.0*Math.pow(10,24), 10,10, new Vector(1000,0));
+    static Debris Object0 = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 6.0*Math.pow(10,24), 10,11, new Vector(1,0), "Object 0", false);
+    static Debris Object1 = new Debris(new Point(gameWidth/2+100, gameHeight/2 + 100), 6.0*Math.pow(10,24), 10,11, new Vector(1,0), "Object 1", false);
+    static Debris Object2 = new Debris(new Point(gameWidth/2+150, gameHeight/2 + 75), 6.0*Math.pow(10,24), 10,11, new Vector(1,0), "Object 2", false);
+    static Debris Object3 = new Debris(new Point(gameWidth/2+90, gameHeight/2 + 100+85), 6.0*Math.pow(10,24), 10,8, new Vector(1,0), "Object 3", false);
 
     //Arrays containing all of the debris and the planets
-    static Planet[] planets = {Sun};
-    static Debris[] debriss = {Object0};
+    static Debris[] planets = {Sun, Sun2};
+    static Debris[] debriss = {Object0, Object1, Object2, Object3};
 
     //Creating the game windows and setting up the settings
     public GameWindow(){
@@ -93,8 +97,11 @@ public class GameWindow extends JPanel  implements Runnable{
         Graphics2D graphics = (Graphics2D)g;
 
         //Filling in the SUN
-        graphics.setColor(Color.orange);
-        graphics.fill(Sun.getPlanet());
+        graphics.setColor(Color.darkGray);
+        for(Debris objectt: planets){
+            objectt.calculateLocation(planets);
+            graphics.fill(objectt.getDebris());
+        }
 
 
         //Filling in the debris

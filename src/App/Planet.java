@@ -28,6 +28,7 @@ public class Planet extends GameWindow {
 
 
 
+
     public double getMass() {
         return mass;
     }
