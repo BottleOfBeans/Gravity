@@ -1,6 +1,7 @@
 package App;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 
 
@@ -15,13 +16,13 @@ public class Main {
          */
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.setResizable(false);
+        window.setResizable(true);
         window.setTitle("Romir's Silly Goofy Little Game Thing :)");
         GameWindow gameWindow = new GameWindow();
         window.add(gameWindow);
+        window.setUndecorated(true);
         window.pack();
         window.setVisible(true);
-
         gameWindow.startWindowThread();
 
     }
