@@ -1,4 +1,4 @@
-package App;
+package src.App;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -33,7 +33,7 @@ public class Debris extends GameWindow {
 
     //Returning the actual particle itself in order to be drawn properly
     public Ellipse2D getDebris() {
-        return new Ellipse2D.Double(origin.getX(), origin.getY(), radius * 2, radius * 2);
+        return new Ellipse2D.Double(origin.getX()-xOffset, origin.getY()-yOffset, radius * 2, radius * 2);
     }
 
     public void calculateLocation(Debris[] planets) {
@@ -47,8 +47,8 @@ public class Debris extends GameWindow {
             if (planet != this && !crashed) {
 
                 //Variables used for the calculation
-                double xDist = (planet.getOrigin().getX() - central.getX());
-                double yDist = (planet.getOrigin().getY() - central.getY());
+                double xDist = (planet.getOrigin().getX() - origin.getX() + planet.getRadius());
+                double yDist = (planet.getOrigin().getY() - origin.getY()) + planet.getRadius();
                 double angle = Math.atan2(xDist, yDist);
 
                 double dist = Math.sqrt(xDist * xDist + yDist * yDist) * Math.pow(10, 7);
@@ -57,7 +57,7 @@ public class Debris extends GameWindow {
                 double xChange = acceleration * Math.sin(angle) / FPS;
                 double yChange = acceleration * Math.cos(angle) / FPS;
 
-                //Checking if the objects are within the radius and crashing them if they get too close
+            //Checking if the objects are within the radius and crashing them if they get too close
                 if(dist < (50)*Math.pow(10, 7) && !isplanet){
                     xChange = 0;
                     yChange = 0;
@@ -71,7 +71,14 @@ public class Debris extends GameWindow {
                         crashed = true;
                     }
                 }
-
+                if(dist < (radius+planet.radius)*Math.pow(10, 7) && isplanet) {
+                    xChange = 0;
+                    yChange = 0;
+                    currentVector.x = 0;
+                    currentVector.y = 0;
+                    central = planet.getOrigin();
+                    origin = planet.getCentral();
+                }
                 //Adding the velocity vector to the change vector :)
                 currentVector = currentVector.add(new Vector(xChange, yChange));
             }

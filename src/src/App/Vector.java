@@ -1,4 +1,4 @@
-package App;
+package src.App;
 
 public class Vector {
     public  double x;

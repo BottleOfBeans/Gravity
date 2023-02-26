@@ -1,10 +1,7 @@
-package App;
+package src.App;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class GameWindow extends JPanel  implements Runnable{
@@ -27,6 +24,12 @@ public class GameWindow extends JPanel  implements Runnable{
     static int gameWidth = 1920; //gameColumnAmount*ActualTileSize;
     static int gameHeight = 1080; //gameRowAmount*ActualTileSize;
 
+    /*
+        Offsets
+        These allow for the screen to always be focusing on the main body at all times :)
+     */
+    static double xOffset;
+    static double yOffset;
 
 
     Thread gameThread;
@@ -35,19 +38,15 @@ public class GameWindow extends JPanel  implements Runnable{
     int FPS = 60;
 
     //Planetary Object Values
-    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(0,0), "Sun", true);
+    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, -7, new Vector(10,5), "Sun", true);
     static Debris Sun1 = new Debris(new Point(gameWidth/2-300, gameHeight/2), 2*Math.pow(10,30), 40, 0, new Vector(0,0), "Sun", true);
-    static Debris Sun2 = new Debris(new Point(gameWidth/2+300, gameHeight/2), 2*Math.pow(10,30), 40, 0, new Vector(0,0), "Sun", true);
+    static Debris Sun2 = new Debris(new Point(gameWidth/2+300, gameHeight/2), 2*Math.pow(10,30), 20, 0, new Vector(0,0), "Sun", true);
 
     //Debris Object Values
-    static int maxobjects = 5000;
-    static Debris Object0 = new Debris(new Point(gameWidth/2, gameHeight/2 + 100), 6.0*Math.pow(10,24), 10,11, new Vector(1,0), "Object 0", false);
-    static Debris Object1 = new Debris(new Point(gameWidth/2+100, gameHeight/2 + 100), 6.0*Math.pow(10,24), 10,11, new Vector(1,0), "Object 1", false);
-    static Debris Object2 = new Debris(new Point(gameWidth/2+150, gameHeight/2 + 75), 6.0*Math.pow(10,24), 10,11, new Vector(1,0), "Object 2", false);
-    static Debris Object3 = new Debris(new Point(gameWidth/2+90, gameHeight/2 + 100+85), 6.0*Math.pow(10,24), 10,8, new Vector(1,0), "Object 3", false);
+    static int maxobjects = 1000;
 
     //Arrays containing all the debris and the planets
-    static Debris[] planets = {Sun1, Sun2};
+    static Debris[] planets = {Sun0};
     static Debris[] debriss = new Debris[maxobjects];
 
     //Creating the game windows and setting up the settings
@@ -69,12 +68,14 @@ public class GameWindow extends JPanel  implements Runnable{
     public void run(){
         Random rand = new Random();
         for(int i =0; i<maxobjects; i++){
-            int Offset = rand.nextInt(100);
+            int Offset = rand.nextInt(-gameHeight/2,gameHeight/2);
             int SOffset = rand.nextInt(15);
             int DOffset = rand.nextInt(-2,2);
-            Debris GObject = new Debris(new Point(gameWidth/2 + Offset, gameHeight/2 + Offset), 3.0*Math.pow(10,24), 10,SOffset, new Vector(DOffset,0), "Object "+i, false);
+            double Mass = 1.0*Math.pow(10,24);
+            Debris GObject = new Debris(new Point(gameWidth/2 + Offset, gameHeight/2 + Offset),Mass, 5,SOffset, new Vector(DOffset,0), "Object "+i, false);
             debriss[i] = GObject;
         }
+
         double drawInterval = 1000000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -104,6 +105,13 @@ public class GameWindow extends JPanel  implements Runnable{
     //Function that paints the updated version of the frame {FPS} times a second.
     public void paintComponent(Graphics g){
 
+        /*
+            Calculating View Offset
+         */
+        xOffset = planets[0].central.getX() - gameWidth/2;
+        yOffset = planets[0].central.getY() - gameHeight/2;
+
+
         //Quick definition of varibles to use with the G2D library
         super.paintComponent(g);
         Graphics2D graphics = (Graphics2D)g;
@@ -111,9 +119,11 @@ public class GameWindow extends JPanel  implements Runnable{
         //Filling in the Planets
         graphics.setColor(Color.darkGray);
         for(Debris objectt: planets){
-            //objectt.calculateLocation(planets);
+            objectt.calculateLocation(planets);
             graphics.fill(objectt.getDebris());
         }
+
+
 
 
         //Filling in the debris
