@@ -63,22 +63,12 @@ public class Debris extends GameWindow {
                     yChange = 0;
                     currentVector.x = 0;
                     currentVector.y = 0;
-                    central = planet.getOrigin();
-                    origin = planet.getCentral();
-                    radius = 0;
                     if(!crashed){
                         System.out.println("Oh no!   "+name+"   crashed!!!");
                         crashed = true;
                     }
                 }
-                if(dist < (radius+planet.radius)*Math.pow(10, 7) && isplanet) {
-                    xChange = 0;
-                    yChange = 0;
-                    currentVector.x = 0;
-                    currentVector.y = 0;
-                    central = planet.getOrigin();
-                    origin = planet.getCentral();
-                }
+
                 //Adding the velocity vector to the change vector :)
                 currentVector = currentVector.add(new Vector(xChange, yChange));
             }

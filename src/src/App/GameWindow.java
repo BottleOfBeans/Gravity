@@ -35,10 +35,10 @@ public class GameWindow extends JPanel  implements Runnable{
     Thread gameThread;
 
     //Game Values
-    int FPS = 60;
+    int FPS = 144;
 
     //Planetary Object Values
-    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, -7, new Vector(10,5), "Sun", true);
+    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(10,5), "Sun", true);
     static Debris Sun1 = new Debris(new Point(gameWidth/2-300, gameHeight/2), 2*Math.pow(10,30), 40, 0, new Vector(0,0), "Sun", true);
     static Debris Sun2 = new Debris(new Point(gameWidth/2+300, gameHeight/2), 2*Math.pow(10,30), 20, 0, new Vector(0,0), "Sun", true);
 
