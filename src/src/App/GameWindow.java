@@ -38,12 +38,12 @@ public class GameWindow extends JPanel  implements Runnable{
     int FPS = 144;
 
     //Planetary Object Values
-    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(10,5), "Sun", true);
+    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, -7, new Vector(10,5), "Sun", true);
     static Debris Sun1 = new Debris(new Point(gameWidth/2-300, gameHeight/2), 2*Math.pow(10,30), 40, 0, new Vector(0,0), "Sun", true);
     static Debris Sun2 = new Debris(new Point(gameWidth/2+300, gameHeight/2), 2*Math.pow(10,30), 20, 0, new Vector(0,0), "Sun", true);
 
     //Debris Object Values
-    static int maxobjects = 1000;
+    static int maxobjects = 10000;
 
     //Arrays containing all the debris and the planets
     static Debris[] planets = {Sun0};
@@ -68,11 +68,12 @@ public class GameWindow extends JPanel  implements Runnable{
     public void run(){
         Random rand = new Random();
         for(int i =0; i<maxobjects; i++){
-            int Offset = rand.nextInt(-gameHeight/2,gameHeight/2);
-            int SOffset = rand.nextInt(15);
+            int HOffset = rand.nextInt(-gameHeight/2,gameHeight/2);
+            int WOffset = rand.nextInt(-gameWidth/2,gameWidth/2);
+            int SOffset = rand.nextInt(-15,15);
             int DOffset = rand.nextInt(-2,2);
             double Mass = 1.0*Math.pow(10,24);
-            Debris GObject = new Debris(new Point(gameWidth/2 + Offset, gameHeight/2 + Offset),Mass, 5,SOffset, new Vector(DOffset,0), "Object "+i, false);
+            Debris GObject = new Debris(new Point(gameWidth/2 + WOffset, gameHeight/2 + HOffset),Mass, 5,SOffset, new Vector(DOffset,0), "Object "+i, false);
             debriss[i] = GObject;
         }
 

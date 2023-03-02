@@ -63,6 +63,7 @@ public class Debris extends GameWindow {
                     yChange = 0;
                     currentVector.x = 0;
                     currentVector.y = 0;
+                    radius = 0;
                     if(!crashed){
                         System.out.println("Oh no!   "+name+"   crashed!!!");
                         crashed = true;
