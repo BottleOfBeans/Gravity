@@ -2,6 +2,7 @@ package src.App;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.Random;
 
 
 public class Debris extends GameWindow {
@@ -16,7 +17,9 @@ public class Debris extends GameWindow {
     String name;
     boolean crashed = false;
     boolean isplanet;
-
+    double Z;
+    Color currentColor;
+    Random rand = new Random();
     //Creating the instance once called
     public Debris(Point gCentral, double gmass, double gradius, double gvelocity, Vector gVector, String gname, boolean gisplanet) {
         central = gCentral;
@@ -29,6 +32,7 @@ public class Debris extends GameWindow {
         currentVector = new Vector(xChange, yChange);
         name = gname;
         isplanet = gisplanet;
+        currentColor = new Color(rand.nextInt(0,255),rand.nextInt(0,255),rand.nextInt(0,255));
     }
 
     //Returning the actual particle itself in order to be drawn properly
@@ -63,7 +67,9 @@ public class Debris extends GameWindow {
                     yChange = 0;
                     currentVector.x = 0;
                     currentVector.y = 0;
-                    radius = 0;
+                    //central = planet.getOrigin();
+                    //origin = planet.getCentral();
+                    //radius = 0;
                     if(!crashed){
                         System.out.println("Oh no!   "+name+"   crashed!!!");
                         crashed = true;

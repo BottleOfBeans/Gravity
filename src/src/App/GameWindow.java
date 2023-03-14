@@ -38,15 +38,15 @@ public class GameWindow extends JPanel  implements Runnable{
     int FPS = 144;
 
     //Planetary Object Values
-    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, -7, new Vector(10,5), "Sun", true);
-    static Debris Sun1 = new Debris(new Point(gameWidth/2-300, gameHeight/2), 2*Math.pow(10,30), 40, 0, new Vector(0,0), "Sun", true);
-    static Debris Sun2 = new Debris(new Point(gameWidth/2+300, gameHeight/2), 2*Math.pow(10,30), 20, 0, new Vector(0,0), "Sun", true);
+    static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(10,5), "Sun", true);
+    static Debris Sun1 = new Debris(new Point((gameWidth/2) - 200 , gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(0,0), "Sun", true);
+    static Debris Sun2 = new Debris(new Point((gameWidth/2) + 200, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(0,0), "Sun", true);
 
     //Debris Object Values
-    static int maxobjects = 10000;
-
+    static int maxobjects = 1000000;
+    static int spawnobjects = 0;
     //Arrays containing all the debris and the planets
-    static Debris[] planets = {Sun0};
+    static Debris[] planets;
     static Debris[] debriss = new Debris[maxobjects];
 
     //Creating the game windows and setting up the settings
@@ -55,6 +55,7 @@ public class GameWindow extends JPanel  implements Runnable{
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        this.addMouseListener(new MouseInputListener());
     }
 
     //Starting thread, managing frame updates
@@ -67,13 +68,12 @@ public class GameWindow extends JPanel  implements Runnable{
     @Override
     public void run(){
         Random rand = new Random();
-        for(int i =0; i<maxobjects; i++){
-            int HOffset = rand.nextInt(-gameHeight/2,gameHeight/2);
-            int WOffset = rand.nextInt(-gameWidth/2,gameWidth/2);
-            int SOffset = rand.nextInt(-15,15);
+        for(int i =0; i<spawnobjects; i++){
+            int Offset = rand.nextInt(-gameWidth/2,gameHeight/2);
+            int SOffset = rand.nextInt(15);
             int DOffset = rand.nextInt(-2,2);
             double Mass = 1.0*Math.pow(10,24);
-            Debris GObject = new Debris(new Point(gameWidth/2 + WOffset, gameHeight/2 + HOffset),Mass, 5,SOffset, new Vector(DOffset,0), "Object "+i, false);
+            Debris GObject = new Debris(new Point(gameWidth/2 + Offset, gameHeight/2 + Offset),Mass, 5,SOffset, new Vector(DOffset,0), "Object "+i, false);
             debriss[i] = GObject;
         }
 
@@ -117,24 +117,26 @@ public class GameWindow extends JPanel  implements Runnable{
         super.paintComponent(g);
         Graphics2D graphics = (Graphics2D)g;
 
+        graphics.setColor(Color.YELLOW);
         //Filling in the Planets
         graphics.setColor(Color.darkGray);
         for(Debris objectt: planets){
-            objectt.calculateLocation(planets);
-            graphics.fill(objectt.getDebris());
+            if(objectt != null ) {
+                graphics.fill(objectt.getDebris());
+            }
         }
 
-
-
-
         //Filling in the debris
-        graphics.setColor(Color.white);
         for(Debris objectt: debriss){
-            objectt.calculateLocation(planets);
-            graphics.fill(objectt.getDebris());
+            if(objectt != null ) {
+                graphics.setColor(objectt.currentColor);
+                objectt.calculateLocation(planets);
+                graphics.fill(objectt.getDebris());
+            }
         }
 
         //Stopping the use of the library to ensure that no more processing power than needed is used
         graphics.dispose();
     }
 }
+
