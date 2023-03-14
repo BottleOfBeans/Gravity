@@ -69,7 +69,7 @@ public class GameWindow extends JPanel  implements Runnable{
     public void run(){
         Random rand = new Random();
         for(int i =0; i<spawnobjects; i++){
-            int Offset = rand.nextInt(-gameWidth/2,gameHeight/2);
+            int Offset = rand.nextInt(-gameHeight/2,gameHeight/2);
             int SOffset = rand.nextInt(15);
             int DOffset = rand.nextInt(-2,2);
             double Mass = 1.0*Math.pow(10,24);
