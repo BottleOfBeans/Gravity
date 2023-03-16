@@ -1,4 +1,4 @@
-package src.App;
+package src;
 
 import javax.swing.*;
 import java.util.Scanner;

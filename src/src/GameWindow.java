@@ -1,7 +1,8 @@
-package src.App;
+package src;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.Random;
 
 public class GameWindow extends JPanel  implements Runnable{
@@ -35,7 +36,7 @@ public class GameWindow extends JPanel  implements Runnable{
     Thread gameThread;
 
     //Game Values
-    int FPS = 144;
+    int FPS = 1;
 
     //Planetary Object Values
     static Debris Sun0 = new Debris(new Point(gameWidth/2, gameHeight/2), 2*Math.pow(10,30), 50, 0, new Vector(10,5), "Sun", true);
@@ -117,9 +118,8 @@ public class GameWindow extends JPanel  implements Runnable{
         super.paintComponent(g);
         Graphics2D graphics = (Graphics2D)g;
 
-        graphics.setColor(Color.YELLOW);
         //Filling in the Planets
-        graphics.setColor(Color.darkGray);
+        graphics.setColor(Color.YELLOW);
         for(Debris objectt: planets){
             if(objectt != null ) {
                 graphics.fill(objectt.getDebris());
