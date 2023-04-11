@@ -10,7 +10,7 @@ public class Main {
             Setting up the JFrame Window
             Resizeable --> False
             Close Operation --> Exit On Close
-            Window Name --> "Romir's Silly Goofy Little Game Thing :)"
+            Window Name --> (WindowName)
             Window Visibility --> True
          */
         double planets = 0;
@@ -47,7 +47,7 @@ public class Main {
             JFrame window = new JFrame();
             window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             window.setResizable(true);
-            window.setTitle("Romir's Silly Goofy Little Game Thing :)");
+            window.setTitle("Fun Basic Gravity Simluation Thingy");
             GameWindow gameWindow = new GameWindow();
             window.add(gameWindow);
             window.setUndecorated(true);

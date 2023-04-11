@@ -81,7 +81,15 @@ public class Debris extends GameWindow {
 
                 //Setting the updated location :)
 
-                int RedValue =(int) Math.min((float) 20 * Math.sqrt(currentVector.getX()*currentVector.getX() + currentVector.getY()*currentVector.getY()), 255);
+                int RedValue;
+
+                if(planets.length <= 1){
+                    RedValue =(int) Math.min((float) 20 * Math.sqrt(currentVector.getX()*currentVector.getX() + currentVector.getY()*currentVector.getY()), 255);
+                }else{
+                    RedValue =(int) Math.min((float) 15 * Math.sqrt(currentVector.getX()*currentVector.getX() + currentVector.getY()*currentVector.getY()), 255);
+
+                }
+
                 int GreenValue = Math.abs(255-RedValue);
                 int BlueValue = (int) Math.min(Math.max(0,(RedValue-225) * 100),225);
 
