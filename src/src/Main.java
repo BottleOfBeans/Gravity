@@ -16,11 +16,11 @@ public class Main {
         double planets = 0;
         double suns = 0;
 
-        Scanner obj  = new Scanner(System.in);
+        Scanner scan  = new Scanner(System.in);
         System.out.println("Enter the amount of planets you want between 1 and 1000000 (You can also click later to add more!) ");
         while(planets <= 0){
             System.out.print("Enter Here:");
-            planets = obj.nextInt();
+            planets = scan.nextInt();
             if(planets >= GameWindow.maxobjects){
                 planets = 0;
             }
